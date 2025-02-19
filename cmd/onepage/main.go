@@ -21,4 +21,8 @@ func main() {
 	printerDefs := wingdi.NewPrinterDefaults(pInfo2s[0].DataType(), pInfo2s[0].DevMode, wingdi.PRINTER_ACCESS_USE)
 	handle, _ := wingdi.OpenPrinter(defPrinter, printerDefs)
 	fmt.Printf("Default printer handle: %x\n", handle)
+
+	err := wingdi.ClosePrinter(handle)
+
+	fmt.Printf("Result of ClosePrinter: %s\n", err.Error())
 }

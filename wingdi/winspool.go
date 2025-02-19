@@ -3,6 +3,7 @@
 package wingdi
 
 import (
+	"fmt"
 	"syscall"
 	"unsafe"
 )
@@ -26,11 +27,17 @@ const (
 var (
 	modwinspool = syscall.NewLazyDLL("winspool.drv")
 
+	procClosePrinter      = modwinspool.NewProc("ClosePrinter")
 	procEnumPrinters      = modwinspool.NewProc("EnumPrintersW")
 	procGetDefaultPrinter = modwinspool.NewProc("GetDefaultPrinterW")
 	procOpenPrinter       = modwinspool.NewProc("OpenPrinterW")
+	procStartDocPrinter   = modwinspool.NewProc("StartDocPrinterW")
 )
 
+func ClosePrinter(handle uintptr) error {
+	_, _, err := procClosePrinter.Call(handle)
+	return err
+}
 func EnumPrinters(flags uint32,
 	name string,
 	level uint32,
@@ -51,7 +58,7 @@ func EnumPrinters(flags uint32,
 }
 
 func OpenPrinter(prName string, defaults *PrinterDefaults) (uintptr, error) {
-	var handle uint32 = 0
+	var handle uintptr = 0
 	name, _ := syscall.UTF16FromString(prName)
 	r1, _, err := procOpenPrinter.Call(
 		uintptr(unsafe.Pointer(&name[0])),
@@ -60,7 +67,16 @@ func OpenPrinter(prName string, defaults *PrinterDefaults) (uintptr, error) {
 	if r1 == 0 {
 		return 0, err
 	}
-	return uintptr(handle), err
+	return handle, err
+}
+
+func StartDocPrinter(handle uintptr, level uint32, docInfo *DocInfo1) uintptr {
+	r1, _, err := procStartDocPrinter.Call(
+		handle,
+		uintptr(level),
+		uintptr(unsafe.Pointer(docInfo)))
+	fmt.Printf("StartDocPrinter PrintJob: %d, err: %s\n", r1, err.Error())
+	return r1
 }
 
 func getDefaultPrinter(buf *uint16, bufN *uint32) error {
