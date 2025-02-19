@@ -22,6 +22,10 @@ func main() {
 	handle, _ := wingdi.OpenPrinter(defPrinter, printerDefs)
 	fmt.Printf("Default printer handle: %x\n", handle)
 
+	docInfo := wingdi.NewDocInfo("Test Print Doc")
+	printJob := wingdi.StartDoc(handle, docInfo)
+	fmt.Printf("Print Job is %d\n", printJob)
+
 	err := wingdi.ClosePrinter(handle)
 
 	fmt.Printf("Result of ClosePrinter: %s\n", err.Error())

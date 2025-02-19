@@ -3,7 +3,6 @@
 package wingdi
 
 import (
-	"fmt"
 	"syscall"
 	"unsafe"
 )
@@ -31,7 +30,6 @@ var (
 	procEnumPrinters      = modwinspool.NewProc("EnumPrintersW")
 	procGetDefaultPrinter = modwinspool.NewProc("GetDefaultPrinterW")
 	procOpenPrinter       = modwinspool.NewProc("OpenPrinterW")
-	procStartDocPrinter   = modwinspool.NewProc("StartDocPrinterW")
 )
 
 func ClosePrinter(handle uintptr) error {
@@ -68,15 +66,6 @@ func OpenPrinter(prName string, defaults *PrinterDefaults) (uintptr, error) {
 		return 0, err
 	}
 	return handle, err
-}
-
-func StartDocPrinter(handle uintptr, level uint32, docInfo *DocInfo1) uintptr {
-	r1, _, err := procStartDocPrinter.Call(
-		handle,
-		uintptr(level),
-		uintptr(unsafe.Pointer(docInfo)))
-	fmt.Printf("StartDocPrinter PrintJob: %d, err: %s\n", r1, err.Error())
-	return r1
 }
 
 func getDefaultPrinter(buf *uint16, bufN *uint32) error {

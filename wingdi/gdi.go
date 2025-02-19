@@ -8,15 +8,14 @@ import (
 )
 
 var (
-	modcomdlg32 = syscall.NewLazyDLL("comdlg32.dll")
+	modgdi32 = syscall.NewLazyDLL("gdi32.dll")
 
-	procPrintDlg = modcomdlg32.NewProc("PrintDlgExW")
+	procStartDoc = modgdi32.NewProc(("StartDocW"))
 )
 
-func PrintDlgEx(printDlg *PrintDlgExW) (pdResult, error) {
-	r1, _, err := procPrintDlg.Call(uintptr(unsafe.Pointer(printDlg)))
-	if err == syscall.Errno(0) {
-		return pdResult(r1), nil
-	}
-	return PD_RESULT_CANCEL, err
+func StartDoc(handle uintptr, docInfo *DocInfo) uintptr {
+	r1, _, _ := procStartDoc.Call(
+		handle,
+		uintptr(unsafe.Pointer(docInfo)))
+	return r1
 }
