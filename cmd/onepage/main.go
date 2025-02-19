@@ -29,8 +29,14 @@ func main() {
 	startPageOk := wingdi.StartPage(handle)
 	fmt.Printf("StartPage OK: %t\n", startPageOk)
 
-	endOk := wingdi.EndDoc(handle)
-	fmt.Printf("EndDoc OK: %t\n", endOk)
+	printerDC := wingdi.CreateDC("WINSPOOL", defPrinter, pInfo2s[0].DevMode)
+	fmt.Printf("printerDC: %d\n", printerDC)
+
+	endPageOk := wingdi.EndPage(handle)
+	fmt.Printf("EndPage OK: %t\n", endPageOk)
+
+	endDocOk := wingdi.EndDoc(handle)
+	fmt.Printf("EndDoc OK: %t\n", endDocOk)
 
 	err := wingdi.ClosePrinter(handle)
 
