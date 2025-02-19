@@ -26,6 +26,9 @@ func main() {
 	printJob := wingdi.StartDoc(handle, docInfo)
 	fmt.Printf("Print Job is %d\n", printJob)
 
+	startPageOk := wingdi.StartPage(handle)
+	fmt.Printf("StartPage OK: %t\n", startPageOk)
+
 	endOk := wingdi.EndDoc(handle)
 	fmt.Printf("EndDoc OK: %t\n", endOk)
 
