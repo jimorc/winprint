@@ -26,6 +26,9 @@ func main() {
 	printJob := wingdi.StartDoc(handle, docInfo)
 	fmt.Printf("Print Job is %d\n", printJob)
 
+	endOk := wingdi.EndDoc(handle)
+	fmt.Printf("EndDoc OK: %t\n", endOk)
+
 	err := wingdi.ClosePrinter(handle)
 
 	fmt.Printf("Result of ClosePrinter: %s\n", err.Error())
