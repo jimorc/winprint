@@ -36,7 +36,7 @@ func main() {
 	buf := uintptr(unsafe.Pointer(&text[0]))
 
 	written, ok := wingdi.WritePrinter(handle, buf, 2*len(text))
-	fmt.Printf("WritePrinter: chars written: %d, write OK: %t\n", written, ok)
+	fmt.Printf("WritePrinter: bytes written: %d, write OK: %t\n", written, ok)
 
 	endPagePrinterOk := wingdi.EndPagePrinter(handle)
 	fmt.Printf("EndPagePrinter status: %t\n", endPagePrinterOk)
