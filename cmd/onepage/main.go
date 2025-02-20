@@ -4,6 +4,8 @@ package main
 
 import (
 	"fmt"
+	"syscall"
+	"unsafe"
 
 	"github.com/jimorc/winprint/wingdi"
 )
@@ -29,24 +31,13 @@ func main() {
 
 	startPagePrinterOk := wingdi.StartPagePrinter(handle)
 	fmt.Printf("StartPagePrinter status: %t\n", startPagePrinterOk)
-	/*	printJob := wingdi.StartDocPrinter(handle, docInfo)
-		//	fmt.Printf("Print Job is %d\n", printJob)
 
-		startPageOk := wingdi.StartPage(handle)
-		fmt.Printf("StartPage OK: %t\n", startPageOk)
+	text, _ := syscall.UTF16FromString("This is a test string")
+	buf := uintptr(unsafe.Pointer(&text[0]))
 
-		printerDC := wingdi.CreateDC("WINSPOOL", pInfo2s[0].Name(), pInfo2s[0].DevMode)
-		fmt.Printf("printerDC: %d\n", printerDC)
-
-		//			elOk := wingdi.Ellipse(printerDC, 0, 0, 2000, 2500)
-		// 			fmt.Printf("Ellipse OK: %t\n", elOk)
-
-		text, _ := syscall.UTF16FromString("This is a test string")
-		buf := uintptr(unsafe.Pointer(&text[0]))
-
-		written, ok := wingdi.WritePrinter(handle, buf, 2*len(text))
-		fmt.Printf("WritePrinter: chars written: %d, write OK: %t\n", written, ok)
-
+	written, ok := wingdi.WritePrinter(handle, buf, 2*len(text))
+	fmt.Printf("WritePrinter: chars written: %d, write OK: %t\n", written, ok)
+	/*
 		endPageOk := wingdi.EndPage(handle)
 		fmt.Printf("EndPage OK: %t\n", endPageOk)
 
