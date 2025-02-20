@@ -28,6 +28,8 @@ var (
 	modwinspool = syscall.NewLazyDLL("winspool.drv")
 
 	procClosePrinter      = modwinspool.NewProc("ClosePrinter")
+	procEndDocPrinter     = modwinspool.NewProc("EndDocPrinter")
+	procEndPagePrinter    = modwinspool.NewProc("EndPagePrinter")
 	procEnumPrinters      = modwinspool.NewProc("EnumPrintersW")
 	procGetDefaultPrinter = modwinspool.NewProc("GetDefaultPrinterW")
 	procOpenPrinter       = modwinspool.NewProc("OpenPrinterW")
@@ -40,6 +42,17 @@ func ClosePrinter(handle uintptr) error {
 	_, _, err := procClosePrinter.Call(handle)
 	return err
 }
+
+func EndDocPrinter(handle uintptr) bool {
+	r1, _, _ := procEndDocPrinter.Call(handle)
+	return r1 != 0
+}
+
+func EndPagePrinter(handle uintptr) bool {
+	r1, _, _ := procEndPagePrinter.Call(handle)
+	return r1 != 0
+}
+
 func EnumPrinters(flags uint32,
 	name string,
 	level uint32,

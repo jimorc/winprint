@@ -37,13 +37,13 @@ func main() {
 
 	written, ok := wingdi.WritePrinter(handle, buf, 2*len(text))
 	fmt.Printf("WritePrinter: chars written: %d, write OK: %t\n", written, ok)
-	/*
-		endPageOk := wingdi.EndPage(handle)
-		fmt.Printf("EndPage OK: %t\n", endPageOk)
 
-		endDocOk := wingdi.EndDoc(handle)
-		fmt.Printf("EndDoc OK: %t\n", endDocOk)
-	*/
+	endPagePrinterOk := wingdi.EndPagePrinter(handle)
+	fmt.Printf("EndPagePrinter status: %t\n", endPagePrinterOk)
+
+	endDocPrinterOk := wingdi.EndDocPrinter(handle)
+	fmt.Printf("EndDocPrinter status: %t\n", endDocPrinterOk)
+
 	err := wingdi.ClosePrinter(handle)
 
 	fmt.Printf("Result of ClosePrinter: %s\n", err.Error())
