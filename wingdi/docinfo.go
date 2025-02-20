@@ -7,15 +7,15 @@ import (
 	"unsafe"
 )
 
-type DocInfo struct {
-	size       int
+type DocInfo1 struct {
 	docName    uintptr
 	outputFile uintptr
 	dataType   uintptr
-	fwType     uint32
 }
 
-func NewDocInfo(dName string) *DocInfo {
+func NewDocInfo1(dName string) *DocInfo1 {
 	n, _ := syscall.UTF16FromString(dName)
-	return &DocInfo{docName: uintptr(unsafe.Pointer(&n[0]))}
+	raw, _ := syscall.UTF16FromString("RAW")
+	return &DocInfo1{docName: uintptr(unsafe.Pointer(&n[0])),
+		dataType: uintptr(unsafe.Pointer(&raw[0]))}
 }

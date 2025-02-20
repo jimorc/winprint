@@ -11,6 +11,7 @@ var (
 	modgdi32 = syscall.NewLazyDLL("gdi32.dll")
 
 	procCreateDC  = modgdi32.NewProc("CreateDCW")
+	procEllipse   = modgdi32.NewProc("Ellipse")
 	procEndDoc    = modgdi32.NewProc("EndDoc")
 	procEndPage   = modgdi32.NewProc("EndPage")
 	procStartDoc  = modgdi32.NewProc("StartDocW")
@@ -27,6 +28,15 @@ func CreateDC(driver string, printerName string, devMode *PrinterDevMode) uintpt
 	return r1
 }
 
+func Ellipse(dc uintptr, left, top, right, bottom uint32) bool {
+	r1, _, _ := procEllipse.Call(dc,
+		uintptr(left),
+		uintptr(top),
+		uintptr(right),
+		uintptr(bottom))
+	return r1 > 0
+}
+
 func EndDoc(handle uintptr) bool {
 	r1, _, _ := procEndDoc.Call(handle)
 	return r1 > 0
@@ -37,7 +47,7 @@ func EndPage(handle uintptr) bool {
 	return r1 > 0
 }
 
-func StartDoc(handle uintptr, docInfo *DocInfo) uintptr {
+func StartDoc(handle uintptr, docInfo *DocInfo1) uintptr {
 	r1, _, _ := procStartDoc.Call(
 		handle,
 		uintptr(unsafe.Pointer(docInfo)))
