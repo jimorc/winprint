@@ -27,8 +27,8 @@ func main() {
 	printJob := wingdi.StartDocPrinter(handle, docInfo)
 	fmt.Printf("Print Job is %d\n", printJob)
 
-	//startPagePrinterOk := wingdi.StartPagePrinter(handle)
-	//mt.Printf("StartPagePrinter status: %t\n", startPagePrinterOk)
+	startPagePrinterOk := wingdi.StartPagePrinter(handle)
+	fmt.Printf("StartPagePrinter status: %t\n", startPagePrinterOk)
 	/*	printJob := wingdi.StartDocPrinter(handle, docInfo)
 		//	fmt.Printf("Print Job is %d\n", printJob)
 

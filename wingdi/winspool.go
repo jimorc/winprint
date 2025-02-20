@@ -32,8 +32,8 @@ var (
 	procGetDefaultPrinter = modwinspool.NewProc("GetDefaultPrinterW")
 	procOpenPrinter       = modwinspool.NewProc("OpenPrinterW")
 	procStartDocPrinter   = modwinspool.NewProc("StartDocPrinterW")
+	procStartPagePrinter  = modwinspool.NewProc("StartPagePrinter")
 
-// procStartPagePrinter = modwinspool.NewProc("StartPagePrinter")
 // procWritePrinter      = modwinspool.NewProc("WritePrinter")
 )
 
@@ -82,11 +82,12 @@ func StartDocPrinter(handle uintptr, docInfo *DocInfo1) uintptr {
 	return r1
 }
 
-/*func StartPagePrinter(handle uintptr) bool {
+func StartPagePrinter(handle uintptr) bool {
 	r1, _, _ := procStartPagePrinter.Call(handle)
 	return r1 != 0
 }
 
+/*
 func WritePrinter(handle uintptr, buf uintptr, nBuf int) (uint32, bool) {
 	var written uint32 = 0
 	r1, _, err := procWritePrinter.Call(handle,
