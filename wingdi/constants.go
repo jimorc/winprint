@@ -85,3 +85,7 @@ const (
 	PD_RESULT_PRINT  pdResult = 1
 	PD_RESULT_APPLY  pdResult = 2
 )
+
+const (
+	SRCCOPY uint32 = 0x00CC0020
+)
