@@ -45,7 +45,7 @@ func main() {
 	defPrinter, _ := wingdi.GetDefaultPrinter()
 	fmt.Printf("Default printer: %s\n", defPrinter)
 
-	printerDefs := wingdi.NewPrinterDefaults("RAW", pInfo2s[0].DevMode, wingdi.PRINTER_ACCESS_USE)
+	printerDefs := wingdi.NewPrinterDefaults("RAW", pInfo2s[0].DevMode, wingdi.PRINTER_ACCESS_ADMINISTER)
 	handle, _ := wingdi.OpenPrinter(defPrinter, printerDefs)
 	fmt.Printf("Default printer handle: %x\n", handle)
 
@@ -98,9 +98,16 @@ func main() {
 	bitmap := gdiplus.NewBitmapEx(1000, 1000, -3000, gdiplus.PixelFormat24bppRGB, &bmp[len(bmp)-3-3000])
 	fmt.Printf("NewBitmapFromHBITMAP: %v\n", bitmap)
 	g.DrawImage(&bitmap.Image, 0, 0)
-
+	/*
+		s := "This is a test string\n"
+		sBuf := []byte(s)
+		len := len(sBuf)
+		wingdi.WritePrinter(handle, uintptr(unsafe.Pointer(&sBuf[0])), len)*/
 	ok = wingdi.EndPage(pDC)
 	fmt.Printf("EndPage status: %t\n", ok)
+	wingdi.StartPage(pDC)
+	g.DrawImage(&bitmap.Image, 100, 100)
+	wingdi.EndPage(pDC)
 
 	ok = wingdi.EndDoc(pDC)
 	fmt.Printf("EndDoc Status: %t\n", ok)

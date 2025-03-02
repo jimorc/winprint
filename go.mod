@@ -6,6 +6,8 @@ toolchain go1.24.0
 
 require (
 	fyne.io/fyne/v2 v2.5.4
+	github.com/Juicymo/printer v1.1.0
+	github.com/go-pdf/fpdf v0.9.0
 	github.com/shahfarhadreza/go-gdiplus v0.0.0-20210421180137-228a132a1edf
 	golang.org/x/image v0.24.0
 )

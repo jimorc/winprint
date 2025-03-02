@@ -86,7 +86,6 @@ func OpenPrinter(prName string, defaults *PrinterDefaults) (uintptr, error) {
 }
 
 func StartDocPrinter(handle uintptr, docInfo *DocInfo1) uintptr {
-	//	var level uint32 = 1
 	r1, _, err := procStartDocPrinter.Call(handle,
 		uintptr(uint32(1)),
 		uintptr(unsafe.Pointer(docInfo)))

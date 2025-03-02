@@ -115,9 +115,10 @@ func SelectObject(dc uintptr, hObject uintptr) uintptr {
 }
 
 func StartDoc(dc uintptr, docInfo *DocInfo) uintptr {
-	r1, _, _ := procStartDoc.Call(
+	r1, _, err := procStartDoc.Call(
 		dc,
 		uintptr(unsafe.Pointer(docInfo)))
+	fmt.Printf("StartDoc err: %s\n", err.Error())
 	return r1
 }
 
